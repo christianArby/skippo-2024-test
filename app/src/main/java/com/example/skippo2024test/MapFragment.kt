@@ -15,7 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.skippo2024test.databinding.FragmentMapBinding
 import com.example.skippo2024test.ui.navigate.NavigateCameraViewModel
 import com.example.skippo2024test.ui.profile.ProfileCameraViewModel
-import com.example.skippo2024test.ui.notifications.NotificationsCameraViewModel
+import com.example.skippo2024test.ui.search.SearchCameraViewModel
 import com.mapbox.maps.CameraChangedCallback
 import com.mapbox.maps.extension.style.layers.generated.LineLayer
 import com.mapbox.maps.plugin.annotation.annotations
@@ -34,7 +34,7 @@ class MapFragment : Fragment() {
 
     private val navigateCameraViewModel: NavigateCameraViewModel by activityViewModels()
     private val profileCameraViewModel: ProfileCameraViewModel by activityViewModels()
-    private val notificationsCameraViewModel: NotificationsCameraViewModel by activityViewModels()
+    private val searchCameraViewModel: SearchCameraViewModel by activityViewModels()
 
     private lateinit var binding: FragmentMapBinding
 
@@ -84,7 +84,7 @@ class MapFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 combine(
-                    notificationsCameraViewModel.mapCameraState,
+                    searchCameraViewModel.mapCameraState,
                     profileCameraViewModel.mapCameraState,
                     navigateCameraViewModel.mapCameraState
                 ) { cameraStateArray ->
@@ -101,7 +101,7 @@ class MapFragment : Fragment() {
         val callback = CameraChangedCallback { cameraChanged ->
             navigateCameraViewModel.cameraStateUpdated(map.mapboxMap.cameraState)
             profileCameraViewModel.cameraStateUpdated(map.mapboxMap.cameraState)
-            notificationsCameraViewModel.cameraStateUpdated(map.mapboxMap.cameraState)
+            searchCameraViewModel.cameraStateUpdated(map.mapboxMap.cameraState)
         }
 
         val cancelable = map.mapboxMap.subscribeCameraChanged(callback)

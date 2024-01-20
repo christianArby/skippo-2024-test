@@ -10,8 +10,8 @@ import com.example.skippo2024test.databinding.ActivityMainBinding
 import com.example.skippo2024test.ui.navigate.NavigateCameraViewModel
 import com.example.skippo2024test.ui.navigate.NavigateFragment
 import com.example.skippo2024test.ui.navigate.MapRendererStore
-import com.example.skippo2024test.ui.notifications.NotificationsCameraViewModel
-import com.example.skippo2024test.ui.notifications.NotificationsFragment
+import com.example.skippo2024test.ui.search.SearchCameraViewModel
+import com.example.skippo2024test.ui.search.SearchFragment
 import com.example.skippo2024test.ui.profile.ProfileCameraViewModel
 import com.example.skippo2024test.ui.profile.ProfileFragment
 import com.mapbox.common.MapboxOptions
@@ -22,7 +22,7 @@ import javax.inject.Inject
 enum class MapCamera {
     PROFILE,
     NAVIGATE,
-    NOTIFICATIONS
+    SEARCH
 }
 
 @AndroidEntryPoint
@@ -34,11 +34,11 @@ class MainActivity : AppCompatActivity() {
 
     private val navigateCameraViewModel: NavigateCameraViewModel by viewModels()
     private val profileCameraViewModel: ProfileCameraViewModel by viewModels()
-    private val notificationsCameraViewModel: NotificationsCameraViewModel by viewModels()
+    private val searchCameraViewModel: SearchCameraViewModel by viewModels()
 
     private val profileFragment = ProfileFragment()
     private val navigateFragment = NavigateFragment()
-    private val notificationsFragment = NotificationsFragment()
+    private val searchFragment = SearchFragment()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val listOfCameras = listOf(navigateCameraViewModel, profileCameraViewModel, notificationsCameraViewModel)
+        val listOfCameras = listOf(navigateCameraViewModel, profileCameraViewModel, searchCameraViewModel)
 
         MapboxOptions.accessToken = ""
 
@@ -61,10 +61,10 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(R.id.app_screen_container, profileFragment)
             .add(R.id.app_screen_container, navigateFragment)
-            .add(R.id.app_screen_container, notificationsFragment)
+            .add(R.id.app_screen_container, searchFragment)
             .hide(profileFragment)
             .hide(navigateFragment)
-            .hide(notificationsFragment).commit()
+            .hide(searchFragment).commit()
 
 
         lifecycleScope.launch {
@@ -76,21 +76,21 @@ class MainActivity : AppCompatActivity() {
                             listOfCameras.forEach {
                                 it.notifyActiveCamera(MapCamera.PROFILE)
                             }
-                            supportFragmentManager.beginTransaction().show(profileFragment).hide(navigateFragment).hide(notificationsFragment).commit()
+                            supportFragmentManager.beginTransaction().show(profileFragment).hide(navigateFragment).hide(searchFragment).commit()
                         }
                         BottomNavItem.NAVIGATE -> {
                             mapRendererStore.setActiveFeatures(NavigateFragment.renderableFeatures)
                             listOfCameras.forEach {
                                 it.notifyActiveCamera(MapCamera.NAVIGATE)
                             }
-                            supportFragmentManager.beginTransaction().show(navigateFragment).hide(profileFragment).hide(notificationsFragment).commit()
+                            supportFragmentManager.beginTransaction().show(navigateFragment).hide(profileFragment).hide(searchFragment).commit()
                         }
-                        BottomNavItem.NOTIFICATIONS -> {
-                            mapRendererStore.setActiveFeatures(NotificationsFragment.renderableFeatures)
+                        BottomNavItem.SEARCH -> {
+                            mapRendererStore.setActiveFeatures(SearchFragment.renderableFeatures)
                             listOfCameras.forEach {
-                                it.notifyActiveCamera(MapCamera.NOTIFICATIONS)
+                                it.notifyActiveCamera(MapCamera.SEARCH)
                             }
-                            supportFragmentManager.beginTransaction().show(notificationsFragment).hide(profileFragment).hide(navigateFragment).commit()
+                            supportFragmentManager.beginTransaction().show(searchFragment).hide(profileFragment).hide(navigateFragment).commit()
                         }
                     }
                 }

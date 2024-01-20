@@ -1,4 +1,4 @@
-package com.example.skippo2024test.ui.notifications
+package com.example.skippo2024test.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.example.skippo2024test.ui.navigate.RenderableFeatures
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NotificationsFragment : Fragment() {
+class SearchFragment : Fragment() {
 
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
 

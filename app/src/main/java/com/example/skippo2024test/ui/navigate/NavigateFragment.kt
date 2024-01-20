@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -149,13 +150,13 @@ fun BottomNavigationBar(bottomNavChanged : (bottomNav: BottomNavItem) -> Unit) {
         BottomNavigationItem(
             icon = {
                 Icon(
-                    imageVector = Icons.Default.Notifications,
-                    contentDescription = "Notifications"
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search"
                 )
             },
-            label = { Text("Notifications") },
+            label = { Text("Search") },
             selected = true,
-            onClick = { bottomNavChanged(BottomNavItem.NOTIFICATIONS) }
+            onClick = { bottomNavChanged(BottomNavItem.SEARCH) }
         )
     }
 }

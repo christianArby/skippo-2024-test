@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class MainActivityViewModel: ViewModel() {
 
-    val bottomNavItem: MutableStateFlow<BottomNavItem> = MutableStateFlow(BottomNavItem.HOME)
+    val bottomNavItem: MutableStateFlow<BottomNavItem> = MutableStateFlow(BottomNavItem.PROFILE)
 
     fun onBottomNavigationChanged(bottomNavItem: BottomNavItem) {
         this.bottomNavItem.value = bottomNavItem
@@ -13,7 +13,7 @@ class MainActivityViewModel: ViewModel() {
 }
 
 enum class BottomNavItem {
-    HOME,
+    PROFILE,
     DASHBOARD,
     NOTIFICATIONS
 }

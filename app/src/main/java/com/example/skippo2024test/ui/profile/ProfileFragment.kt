@@ -1,4 +1,4 @@
-package com.example.skippo2024test.ui.home
+package com.example.skippo2024test.ui.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class ProfileFragment : Fragment() {
 
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
 

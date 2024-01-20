@@ -8,8 +8,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.skippo2024test.MainActivityViewModel
-import com.example.skippo2024test.ui.dashboard.OverlayComposer
-import com.example.skippo2024test.ui.dashboard.RenderableFeatures
+import com.example.skippo2024test.ui.navigate.OverlayComposer
+import com.example.skippo2024test.ui.navigate.RenderableFeatures
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

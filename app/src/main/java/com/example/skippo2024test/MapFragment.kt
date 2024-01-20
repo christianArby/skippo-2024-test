@@ -13,7 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.skippo2024test.databinding.FragmentMapBinding
-import com.example.skippo2024test.ui.dashboard.DashboardCameraViewModel
+import com.example.skippo2024test.ui.navigate.NavigateCameraViewModel
 import com.example.skippo2024test.ui.profile.ProfileCameraViewModel
 import com.example.skippo2024test.ui.notifications.NotificationsCameraViewModel
 import com.mapbox.maps.CameraChangedCallback
@@ -32,7 +32,7 @@ class MapFragment : Fragment() {
 
     private val droppedPinFVM: DroppedPinFVM by activityViewModels()
 
-    private val dashboardCameraViewModel: DashboardCameraViewModel by activityViewModels()
+    private val navigateCameraViewModel: NavigateCameraViewModel by activityViewModels()
     private val profileCameraViewModel: ProfileCameraViewModel by activityViewModels()
     private val notificationsCameraViewModel: NotificationsCameraViewModel by activityViewModels()
 
@@ -86,7 +86,7 @@ class MapFragment : Fragment() {
                 combine(
                     notificationsCameraViewModel.mapCameraState,
                     profileCameraViewModel.mapCameraState,
-                    dashboardCameraViewModel.mapCameraState
+                    navigateCameraViewModel.mapCameraState
                 ) { cameraStateArray ->
                     cameraStateArray.forEach { cameraState ->
                         cameraState?.let { map.mapboxMap.setCamera(cameraState.toCameraOptions()) }
@@ -99,7 +99,7 @@ class MapFragment : Fragment() {
         }
 
         val callback = CameraChangedCallback { cameraChanged ->
-            dashboardCameraViewModel.cameraStateUpdated(map.mapboxMap.cameraState)
+            navigateCameraViewModel.cameraStateUpdated(map.mapboxMap.cameraState)
             profileCameraViewModel.cameraStateUpdated(map.mapboxMap.cameraState)
             notificationsCameraViewModel.cameraStateUpdated(map.mapboxMap.cameraState)
         }

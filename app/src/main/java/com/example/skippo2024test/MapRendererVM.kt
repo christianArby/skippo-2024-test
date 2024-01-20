@@ -2,8 +2,8 @@ package com.example.skippo2024test
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.skippo2024test.ui.dashboard.MapRendererStore
-import com.example.skippo2024test.ui.dashboard.RenderableFeatures
+import com.example.skippo2024test.ui.navigate.MapRendererStore
+import com.example.skippo2024test.ui.navigate.RenderableFeatures
 import com.mapbox.geojson.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

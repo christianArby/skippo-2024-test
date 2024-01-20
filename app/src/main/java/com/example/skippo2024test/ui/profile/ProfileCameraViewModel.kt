@@ -2,7 +2,7 @@ package com.example.skippo2024test.ui.profile
 
 import androidx.lifecycle.viewModelScope
 import com.example.skippo2024test.MapCamera
-import com.example.skippo2024test.ui.dashboard.CameraViewModel
+import com.example.skippo2024test.ui.navigate.CameraViewModel
 import com.mapbox.maps.CameraState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

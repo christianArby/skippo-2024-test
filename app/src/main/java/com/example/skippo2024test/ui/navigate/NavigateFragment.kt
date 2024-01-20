@@ -1,4 +1,4 @@
-package com.example.skippo2024test.ui.dashboard
+package com.example.skippo2024test.ui.navigate
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,9 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -57,7 +56,7 @@ enum class RenderableFeatures {
 }
 
 @AndroidEntryPoint
-class DashboardFragment : Fragment() {
+class NavigateFragment : Fragment() {
 
 
     private val viewModel: MainActivityViewModel by activityViewModels()
@@ -89,7 +88,7 @@ class DashboardFragment : Fragment() {
 
 @Preview(heightDp = 600, widthDp = 320)
 @Composable
-fun DashboardPreview() {
+fun NavigatePreview() {
     OverlayComposer() {}
 }
 
@@ -139,13 +138,13 @@ fun BottomNavigationBar(bottomNavChanged : (bottomNav: BottomNavItem) -> Unit) {
         BottomNavigationItem(
             icon = {
                 Icon(
-                    imageVector = Icons.Default.AccountBox,
-                    contentDescription = "Dashboard"
+                    imageVector = Icons.Default.LocationOn,
+                    contentDescription = "Navigate"
                 )
             },
-            label = { Text("Dashboard") },
+            label = { Text("Navigate") },
             selected = true,
-            onClick = { bottomNavChanged(BottomNavItem.DASHBOARD) }
+            onClick = { bottomNavChanged(BottomNavItem.NAVIGATE) }
         )
         BottomNavigationItem(
             icon = {

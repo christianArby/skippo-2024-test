@@ -7,9 +7,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.skippo2024test.databinding.ActivityMainBinding
-import com.example.skippo2024test.ui.dashboard.DashboardCameraViewModel
-import com.example.skippo2024test.ui.dashboard.DashboardFragment
-import com.example.skippo2024test.ui.dashboard.MapRendererStore
+import com.example.skippo2024test.ui.navigate.NavigateCameraViewModel
+import com.example.skippo2024test.ui.navigate.NavigateFragment
+import com.example.skippo2024test.ui.navigate.MapRendererStore
 import com.example.skippo2024test.ui.notifications.NotificationsCameraViewModel
 import com.example.skippo2024test.ui.notifications.NotificationsFragment
 import com.example.skippo2024test.ui.profile.ProfileCameraViewModel
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 enum class MapCamera {
     PROFILE,
-    DASHBOARD,
+    NAVIGATE,
     NOTIFICATIONS
 }
 
@@ -32,12 +32,12 @@ class MainActivity : AppCompatActivity() {
 
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
-    private val dashboardCameraViewModel: DashboardCameraViewModel by viewModels()
+    private val navigateCameraViewModel: NavigateCameraViewModel by viewModels()
     private val profileCameraViewModel: ProfileCameraViewModel by viewModels()
     private val notificationsCameraViewModel: NotificationsCameraViewModel by viewModels()
 
     private val profileFragment = ProfileFragment()
-    private val dashboardFragment = DashboardFragment()
+    private val navigateFragment = NavigateFragment()
     private val notificationsFragment = NotificationsFragment()
 
     private lateinit var binding: ActivityMainBinding
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val listOfCameras = listOf(dashboardCameraViewModel, profileCameraViewModel, notificationsCameraViewModel)
+        val listOfCameras = listOf(navigateCameraViewModel, profileCameraViewModel, notificationsCameraViewModel)
 
         MapboxOptions.accessToken = ""
 
@@ -60,10 +60,10 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .add(R.id.app_screen_container, profileFragment)
-            .add(R.id.app_screen_container, dashboardFragment)
+            .add(R.id.app_screen_container, navigateFragment)
             .add(R.id.app_screen_container, notificationsFragment)
             .hide(profileFragment)
-            .hide(dashboardFragment)
+            .hide(navigateFragment)
             .hide(notificationsFragment).commit()
 
 
@@ -76,21 +76,21 @@ class MainActivity : AppCompatActivity() {
                             listOfCameras.forEach {
                                 it.notifyActiveCamera(MapCamera.PROFILE)
                             }
-                            supportFragmentManager.beginTransaction().show(profileFragment).hide(dashboardFragment).hide(notificationsFragment).commit()
+                            supportFragmentManager.beginTransaction().show(profileFragment).hide(navigateFragment).hide(notificationsFragment).commit()
                         }
-                        BottomNavItem.DASHBOARD -> {
-                            mapRendererStore.setActiveFeatures(DashboardFragment.renderableFeatures)
+                        BottomNavItem.NAVIGATE -> {
+                            mapRendererStore.setActiveFeatures(NavigateFragment.renderableFeatures)
                             listOfCameras.forEach {
-                                it.notifyActiveCamera(MapCamera.DASHBOARD)
+                                it.notifyActiveCamera(MapCamera.NAVIGATE)
                             }
-                            supportFragmentManager.beginTransaction().show(dashboardFragment).hide(profileFragment).hide(notificationsFragment).commit()
+                            supportFragmentManager.beginTransaction().show(navigateFragment).hide(profileFragment).hide(notificationsFragment).commit()
                         }
                         BottomNavItem.NOTIFICATIONS -> {
                             mapRendererStore.setActiveFeatures(NotificationsFragment.renderableFeatures)
                             listOfCameras.forEach {
                                 it.notifyActiveCamera(MapCamera.NOTIFICATIONS)
                             }
-                            supportFragmentManager.beginTransaction().show(notificationsFragment).hide(profileFragment).hide(dashboardFragment).commit()
+                            supportFragmentManager.beginTransaction().show(notificationsFragment).hide(profileFragment).hide(navigateFragment).commit()
                         }
                     }
                 }

@@ -14,6 +14,6 @@ class MainActivityViewModel: ViewModel() {
 
 enum class BottomNavItem {
     PROFILE,
-    DASHBOARD,
+    NAVIGATE,
     NOTIFICATIONS
 }

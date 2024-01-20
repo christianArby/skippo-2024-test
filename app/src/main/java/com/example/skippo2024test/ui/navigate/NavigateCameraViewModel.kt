@@ -1,4 +1,4 @@
-package com.example.skippo2024test.ui.dashboard
+package com.example.skippo2024test.ui.navigate
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +11,7 @@ abstract class CameraViewModel : ViewModel() {
     abstract fun notifyActiveCamera(camera: MapCamera)
 }
 
-class DashboardCameraViewModel : CameraViewModel() {
+class NavigateCameraViewModel : CameraViewModel() {
     val isActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     val mapCameraState: MutableStateFlow<CameraState?> = MutableStateFlow(null)
@@ -32,7 +32,7 @@ class DashboardCameraViewModel : CameraViewModel() {
     }
 
     override fun notifyActiveCamera(camera: MapCamera) {
-        isActive.value = camera == MapCamera.DASHBOARD
+        isActive.value = camera == MapCamera.NAVIGATE
     }
 
     fun cameraStateUpdated(cameraState: CameraState) {

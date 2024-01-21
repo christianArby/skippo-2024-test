@@ -1,12 +1,12 @@
 package com.example.skippo2024test.appscreens.search
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.skippo2024test.MapCamera
 import com.example.skippo2024test.appscreens.navigate.CameraViewModel
 import com.mapbox.maps.CameraState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-
 class SearchCameraViewModel: CameraViewModel() {
     val isActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
@@ -27,7 +27,7 @@ class SearchCameraViewModel: CameraViewModel() {
         }
     }
 
-    override fun notifyActiveCamera(camera: MapCamera) {
+    override fun setActiveCamera(camera: MapCamera) {
         isActive.value = camera == MapCamera.SEARCH
     }
 

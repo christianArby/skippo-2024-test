@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 abstract class CameraViewModel : ViewModel() {
-    abstract fun notifyActiveCamera(camera: MapCamera)
+    abstract fun setActiveCamera(camera: MapCamera)
 }
 
 class NavigateCameraViewModel : CameraViewModel() {
@@ -31,7 +31,7 @@ class NavigateCameraViewModel : CameraViewModel() {
         }
     }
 
-    override fun notifyActiveCamera(camera: MapCamera) {
+    override fun setActiveCamera(camera: MapCamera) {
         isActive.value = camera == MapCamera.NAVIGATE
     }
 

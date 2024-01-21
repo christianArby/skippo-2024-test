@@ -144,13 +144,17 @@ class MapFragment : Fragment() {
         }
 
         val callback = CameraChangedCallback { cameraChanged ->
-            navigateCameraViewModel.cameraStateUpdated(map.mapboxMap.cameraState)
-            profileCameraViewModel.cameraStateUpdated(map.mapboxMap.cameraState)
-            searchCameraViewModel.cameraStateUpdated(map.mapboxMap.cameraState)
+            notifyCameras()
         }
 
         val cancelable = map.mapboxMap.subscribeCameraChanged(callback)
 
         return binding.root
+    }
+
+    fun notifyCameras() {
+        navigateCameraViewModel.cameraStateUpdated(binding.mapboxMapView.mapboxMap.cameraState)
+        profileCameraViewModel.cameraStateUpdated(binding.mapboxMapView.mapboxMap.cameraState)
+        searchCameraViewModel.cameraStateUpdated(binding.mapboxMapView.mapboxMap.cameraState)
     }
 }

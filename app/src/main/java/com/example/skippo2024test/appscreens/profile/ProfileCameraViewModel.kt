@@ -7,7 +7,6 @@ import com.mapbox.maps.CameraState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-
 class ProfileCameraViewModel: CameraViewModel() {
     val isActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
@@ -28,7 +27,7 @@ class ProfileCameraViewModel: CameraViewModel() {
         }
     }
 
-    override fun notifyActiveCamera(camera: MapCamera) {
+    override fun setActiveCamera(camera: MapCamera) {
         isActive.value = camera == MapCamera.PROFILE
     }
 

@@ -74,23 +74,26 @@ class MainActivity : AppCompatActivity() {
                 mainActivityViewModel.bottomNavItem.collect { item ->
                     when (item) {
                         BottomNavItem.PROFILE -> {
+                            mapFragment.notifyCameras()
                             mapRendererStore.setActiveFeatures(ProfileFragment.renderableFeatures)
                             listOfCameras.forEach {
-                                it.notifyActiveCamera(MapCamera.PROFILE)
+                                it.setActiveCamera(MapCamera.PROFILE)
                             }
                             supportFragmentManager.beginTransaction().show(profileFragment).hide(navigateFragment).hide(searchFragment).commit()
                         }
                         BottomNavItem.NAVIGATE -> {
+                            mapFragment.notifyCameras()
                             mapRendererStore.setActiveFeatures(NavigateFragment.renderableFeatures)
                             listOfCameras.forEach {
-                                it.notifyActiveCamera(MapCamera.NAVIGATE)
+                                it.setActiveCamera(MapCamera.NAVIGATE)
                             }
                             supportFragmentManager.beginTransaction().show(navigateFragment).hide(profileFragment).hide(searchFragment).commit()
                         }
                         BottomNavItem.SEARCH -> {
+                            mapFragment.notifyCameras()
                             mapRendererStore.setActiveFeatures(SearchFragment.renderableFeatures)
                             listOfCameras.forEach {
-                                it.notifyActiveCamera(MapCamera.SEARCH)
+                                it.setActiveCamera(MapCamera.SEARCH)
                             }
                             supportFragmentManager.beginTransaction().show(searchFragment).hide(profileFragment).hide(navigateFragment).commit()
                         }

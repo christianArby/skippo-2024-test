@@ -1,14 +1,17 @@
-package com.example.skippo2024test.ui.profile
+package com.example.skippo2024test.appscreens.navigate
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.skippo2024test.MapCamera
-import com.example.skippo2024test.ui.navigate.CameraViewModel
 import com.mapbox.maps.CameraState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
+abstract class CameraViewModel : ViewModel() {
+    abstract fun notifyActiveCamera(camera: MapCamera)
+}
 
-class ProfileCameraViewModel: CameraViewModel() {
+class NavigateCameraViewModel : CameraViewModel() {
     val isActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     val mapCameraState: MutableStateFlow<CameraState?> = MutableStateFlow(null)
@@ -29,7 +32,7 @@ class ProfileCameraViewModel: CameraViewModel() {
     }
 
     override fun notifyActiveCamera(camera: MapCamera) {
-        isActive.value = camera == MapCamera.PROFILE
+        isActive.value = camera == MapCamera.NAVIGATE
     }
 
     fun cameraStateUpdated(cameraState: CameraState) {

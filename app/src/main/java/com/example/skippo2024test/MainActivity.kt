@@ -7,13 +7,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.skippo2024test.databinding.ActivityMainBinding
-import com.example.skippo2024test.ui.navigate.NavigateCameraViewModel
-import com.example.skippo2024test.ui.navigate.NavigateFragment
-import com.example.skippo2024test.ui.navigate.MapRendererStore
-import com.example.skippo2024test.ui.search.SearchCameraViewModel
-import com.example.skippo2024test.ui.search.SearchFragment
-import com.example.skippo2024test.ui.profile.ProfileCameraViewModel
-import com.example.skippo2024test.ui.profile.ProfileFragment
+import com.example.skippo2024test.appscreens.navigate.NavigateCameraViewModel
+import com.example.skippo2024test.appscreens.navigate.NavigateFragment
+import com.example.skippo2024test.appscreens.navigate.MapRendererStore
+import com.example.skippo2024test.appscreens.navigate.ModalOverlay
+import com.example.skippo2024test.appscreens.search.SearchCameraViewModel
+import com.example.skippo2024test.appscreens.search.SearchFragment
+import com.example.skippo2024test.appscreens.profile.ProfileCameraViewModel
+import com.example.skippo2024test.appscreens.profile.ProfileFragment
 import com.mapbox.common.MapboxOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -39,6 +40,8 @@ class MainActivity : AppCompatActivity() {
     private val profileFragment = ProfileFragment()
     private val navigateFragment = NavigateFragment()
     private val searchFragment = SearchFragment()
+
+    private val overlayComposerVM: OverlayComposerVM by viewModels()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -91,6 +94,22 @@ class MainActivity : AppCompatActivity() {
                                 it.notifyActiveCamera(MapCamera.SEARCH)
                             }
                             supportFragmentManager.beginTransaction().show(searchFragment).hide(profileFragment).hide(navigateFragment).commit()
+                        }
+                    }
+                }
+            }
+        }
+
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                overlayComposerVM.modalOverlay.collect { modalOverlay ->
+                    when (modalOverlay) {
+                        ModalOverlay.EDIT_ROUTE -> {
+                            mapRendererStore.setActiveFeaturesForModal(EditRouteMVM.renderableFeatures)
+                        }
+                        null -> {
+                            mapRendererStore.setActiveFeaturesForModal(null)
                         }
                     }
                 }

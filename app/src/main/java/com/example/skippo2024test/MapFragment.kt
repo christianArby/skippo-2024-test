@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.activityViewModels
@@ -13,9 +15,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.skippo2024test.databinding.FragmentMapBinding
-import com.example.skippo2024test.ui.navigate.NavigateCameraViewModel
-import com.example.skippo2024test.ui.profile.ProfileCameraViewModel
-import com.example.skippo2024test.ui.search.SearchCameraViewModel
+import com.example.skippo2024test.appscreens.navigate.NavigateCameraViewModel
+import com.example.skippo2024test.appscreens.profile.ProfileCameraViewModel
+import com.example.skippo2024test.appscreens.search.SearchCameraViewModel
 import com.mapbox.maps.CameraChangedCallback
 import com.mapbox.maps.extension.style.layers.generated.LineLayer
 import com.mapbox.maps.plugin.annotation.annotations
@@ -31,6 +33,7 @@ class MapFragment : Fragment() {
     private val mapViewModel: MapViewModel by activityViewModels()
 
     private val droppedPinFVM: DroppedPinFVM by activityViewModels()
+    private val editRouteMVM: EditRouteMVM by activityViewModels()
 
     private val navigateCameraViewModel: NavigateCameraViewModel by activityViewModels()
     private val profileCameraViewModel: ProfileCameraViewModel by activityViewModels()
@@ -51,20 +54,65 @@ class MapFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentMapBinding.inflate(inflater, container, false)
 
-        val pointAnnotationManager =
+        val droppedPintAnnotationManager =
+            binding.mapboxMapView.annotations.createPointAnnotationManager()
+        val editRouteAnnotationManager =
             binding.mapboxMapView.annotations.createPointAnnotationManager()
 
         val map = binding.mapboxMapView
         map.mapboxMap.addOnMapClickListener { point ->
             droppedPinFVM.onMapClicked(point)
+            editRouteMVM.onMapClicked(point)
             true
         }
 
         lifecycleScope.launch {
             droppedPinFVM.droppedPinUiState.collect { point ->
-                pointAnnotationManager.deleteAll()
+                droppedPintAnnotationManager.deleteAll()
                 point?.let {
-                    pointAnnotationManager.create(
+                    droppedPintAnnotationManager.create(
+                        PointAnnotationOptions()
+                            .withPoint(
+                                point
+                            )
+                            .withIconImage(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.ic_home_black_24dp
+                                )!!.toBitmap()
+                            )
+                    )
+                }
+
+            }
+        }
+
+        lifecycleScope.launch {
+            editRouteMVM.editRoutePinUiState.collect { point ->
+                point?.let {
+                    editRouteAnnotationManager.create(
+                        PointAnnotationOptions()
+                            .withPoint(
+                                point
+                            )
+                            .withIconImage(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.ic_notifications_black_24dp
+                                )!!.toBitmap()
+                            )
+                    )
+                } ?: run {
+                    editRouteAnnotationManager.deleteAll()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            droppedPinFVM.droppedPinUiState.collect { point ->
+                droppedPintAnnotationManager.deleteAll()
+                point?.let {
+                    droppedPintAnnotationManager.create(
                         PointAnnotationOptions()
                             .withPoint(
                                 point

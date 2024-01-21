@@ -15,19 +15,19 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class MapRendererVM: ViewModel() {
-    abstract val isActive: StateFlow<Boolean>
-}
-
 @HiltViewModel
-class DroppedPinFVM @Inject constructor(private val mapRendererStore: MapRendererStore) : MapRendererVM() {
+class EditRouteMVM @Inject constructor(private val mapRendererStore: MapRendererStore): MapRendererVM() {
+
+    companion object {
+        val renderableFeatures = listOf(RenderableFeatures.EDIT_ROUTE)
+    }
 
     override val isActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    private val _droppedPinUiState: MutableStateFlow<Point?> = MutableStateFlow(null)
-    val droppedPinUiState: StateFlow<Point?> = isActive.flatMapLatest {
+    private val _editRoutePinUiState: MutableStateFlow<Point?> = MutableStateFlow(null)
+    val editRoutePinUiState: StateFlow<Point?> = isActive.flatMapLatest {
         if (it) {
-            _droppedPinUiState
+            _editRoutePinUiState
         } else {
             MutableStateFlow(null)
         }
@@ -40,19 +40,19 @@ class DroppedPinFVM @Inject constructor(private val mapRendererStore: MapRendere
     init {
         viewModelScope.launch {
             mapRendererStore.listOfActiveFeatures.map { features ->
-                features.contains(RenderableFeatures.DROPPED_PIN)
+                features.contains(RenderableFeatures.EDIT_ROUTE)
             }.collect { isActive.value = it }
         }
     }
 
     fun onMapClicked(point: Point) {
         if (isActive.value.not()) return
-        _droppedPinUiState.value = point
+        _editRoutePinUiState.value = point
     }
 
-    fun clearDroppedPin() {
+    fun clearEditRoute() {
         if (isActive.value.not()) return
-        _droppedPinUiState.value = null
+        _editRoutePinUiState.value = null
     }
 
 }

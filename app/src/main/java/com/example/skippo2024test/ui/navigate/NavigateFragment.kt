@@ -1,6 +1,7 @@
 package com.example.skippo2024test.ui.navigate
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +24,10 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -112,6 +115,14 @@ fun BottomSheet(droppedPinFVM: DroppedPinFVM = viewModel()) {
     val sheetState = rememberBottomSheetScaffoldState(
         bottomSheetState = SheetState(skipPartiallyExpanded = false, initialValue = initialValue),
     )
+
+    LaunchedEffect(sheetState.bottomSheetState.currentValue) {
+        snapshotFlow { sheetState.bottomSheetState.currentValue }.collect { currentValue ->
+            if (currentValue != SheetValue.Expanded) {
+                droppedPinFVM.clearDroppedPin()
+            }
+        }
+    }
 
     BottomSheetScaffold(
         scaffoldState = sheetState,

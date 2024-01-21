@@ -50,4 +50,9 @@ class DroppedPinFVM @Inject constructor(private val mapRendererStore: MapRendere
         _droppedPinUiState.value = point
     }
 
+    fun clearDroppedPin() {
+        if (isActive.value.not()) return
+        _droppedPinUiState.value = null
+    }
+
 }

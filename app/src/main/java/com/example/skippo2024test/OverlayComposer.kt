@@ -64,7 +64,7 @@ fun BottomSheet(droppedPinFVM: DroppedPinFVM = viewModel(), overlayComposerVM: O
         bottomSheetState = SheetState(skipPartiallyExpanded = false, initialValue = initialValue),
     )
 
-    LaunchedEffect(sheetState.bottomSheetState.currentValue) {
+    LaunchedEffect(sheetState.bottomSheetState.currentValue.toString() + point.toString()) {
         snapshotFlow { sheetState.bottomSheetState.currentValue }.collect { currentValue ->
             if (currentValue != SheetValue.Expanded) {
                 droppedPinFVM.clearDroppedPin()

@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.skippo2024test.MainActivityViewModel
+import com.example.skippo2024test.MapRendererStore
+import com.example.skippo2024test.OverlayComposer
 import com.example.skippo2024test.OverlayComposerVM
-import com.example.skippo2024test.appscreens.navigate.OverlayComposer
-import com.example.skippo2024test.appscreens.navigate.MapRendererStore
-import com.example.skippo2024test.appscreens.navigate.RenderableFeatures
+import com.example.skippo2024test.RenderableFeatures
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

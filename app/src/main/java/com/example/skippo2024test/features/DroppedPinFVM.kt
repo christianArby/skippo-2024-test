@@ -1,9 +1,9 @@
-package com.example.skippo2024test
+package com.example.skippo2024test.features
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.skippo2024test.appscreens.navigate.MapRendererStore
-import com.example.skippo2024test.appscreens.navigate.RenderableFeatures
+import com.example.skippo2024test.MapRendererStore
+import com.example.skippo2024test.MapRendererVM
+import com.example.skippo2024test.RenderableFeatures
 import com.mapbox.geojson.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,18 +16,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EditRouteMVM @Inject constructor(private val mapRendererStore: MapRendererStore): MapRendererVM() {
-
-    companion object {
-        val renderableFeatures = listOf(RenderableFeatures.EDIT_ROUTE)
-    }
+class DroppedPinFVM @Inject constructor(private val mapRendererStore: MapRendererStore) : MapRendererVM() {
 
     override val isActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    private val _editRoutePinUiState: MutableStateFlow<Point?> = MutableStateFlow(null)
-    val editRoutePinUiState: StateFlow<Point?> = isActive.flatMapLatest {
+    private val _droppedPinUiState: MutableStateFlow<Point?> = MutableStateFlow(null)
+    val droppedPinUiState: StateFlow<Point?> = isActive.flatMapLatest {
         if (it) {
-            _editRoutePinUiState
+            _droppedPinUiState
         } else {
             MutableStateFlow(null)
         }
@@ -40,19 +36,19 @@ class EditRouteMVM @Inject constructor(private val mapRendererStore: MapRenderer
     init {
         viewModelScope.launch {
             mapRendererStore.listOfActiveFeatures.map { features ->
-                features.contains(RenderableFeatures.EDIT_ROUTE)
+                features.contains(RenderableFeatures.DROPPED_PIN)
             }.collect { isActive.value = it }
         }
     }
 
     fun onMapClicked(point: Point) {
         if (isActive.value.not()) return
-        _editRoutePinUiState.value = point
+        _droppedPinUiState.value = point
     }
 
-    fun clearEditRoute() {
+    fun clearDroppedPin() {
         if (isActive.value.not()) return
-        _editRoutePinUiState.value = null
+        _droppedPinUiState.value = null
     }
 
 }

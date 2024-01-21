@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.activityViewModels
@@ -18,6 +16,8 @@ import com.example.skippo2024test.databinding.FragmentMapBinding
 import com.example.skippo2024test.appscreens.navigate.NavigateCameraViewModel
 import com.example.skippo2024test.appscreens.profile.ProfileCameraViewModel
 import com.example.skippo2024test.appscreens.search.SearchCameraViewModel
+import com.example.skippo2024test.features.DroppedPinFVM
+import com.example.skippo2024test.modals.EditRouteMVM
 import com.mapbox.maps.CameraChangedCallback
 import com.mapbox.maps.extension.style.layers.generated.LineLayer
 import com.mapbox.maps.plugin.annotation.annotations
@@ -29,9 +29,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class MapFragment : Fragment() {
-
-    private val mapViewModel: MapViewModel by activityViewModels()
-
     private val droppedPinFVM: DroppedPinFVM by activityViewModels()
     private val editRouteMVM: EditRouteMVM by activityViewModels()
 

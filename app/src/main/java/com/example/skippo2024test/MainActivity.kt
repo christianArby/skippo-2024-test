@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         supportFragmentManager.beginTransaction()
             .add(R.id.map_container, mapFragment).commit()

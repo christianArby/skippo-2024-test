@@ -100,27 +100,6 @@ class MapFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            droppedPinFVM.droppedPinUiState.collect { point ->
-                droppedPintAnnotationManager.deleteAll()
-                point?.let {
-                    droppedPintAnnotationManager.create(
-                        PointAnnotationOptions()
-                            .withPoint(
-                                point
-                            )
-                            .withIconImage(
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.ic_home_black_24dp
-                                )!!.toBitmap()
-                            )
-                    )
-                }
-
-            }
-        }
-
-        lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 combine(
                     searchCameraViewModel.mapCameraState,

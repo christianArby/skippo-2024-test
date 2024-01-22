@@ -41,11 +41,11 @@ fun OverlayComposer(
     editRouteMVM: EditRouteMVM = viewModel(),
     bottomNavChanged : (bottomNav: BottomNavItem) -> Unit
 ) {
-    val overlay = overlayComposerVM.modalOverlay.collectAsState()
+    val modalOverlay = overlayComposerVM.modalOverlay.collectAsState()
     Box() {
-        ModalOverlayContainer(overlay.value, overlayComposerVM, editRouteMVM)
+        ModalOverlayContainer(modalOverlay.value, overlayComposerVM, editRouteMVM)
     }
-    if (overlay.value == null) Box(contentAlignment = Alignment.BottomCenter) {
+    if (modalOverlay.value == null) Box(contentAlignment = Alignment.BottomCenter) {
         BottomSheet(droppedPinFVM, overlayComposerVM)
         Column(verticalArrangement = Arrangement.Bottom) {
             BottomNavigationBar(bottomNavChanged)

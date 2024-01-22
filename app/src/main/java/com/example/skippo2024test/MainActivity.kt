@@ -73,9 +73,9 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainActivityViewModel.bottomNavItem.collect { item ->
+                    mapFragment.notifyCameras()
                     when (item) {
                         BottomNavItem.PROFILE -> {
-                            mapFragment.notifyCameras()
                             mapRendererStore.setActiveFeatures(ProfileFragment.renderableFeatures)
                             listOfCameras.forEach {
                                 it.setActiveCamera(MapCamera.PROFILE)
@@ -83,7 +83,6 @@ class MainActivity : AppCompatActivity() {
                             supportFragmentManager.beginTransaction().show(profileFragment).hide(navigateFragment).hide(searchFragment).commit()
                         }
                         BottomNavItem.NAVIGATE -> {
-                            mapFragment.notifyCameras()
                             mapRendererStore.setActiveFeatures(NavigateFragment.renderableFeatures)
                             listOfCameras.forEach {
                                 it.setActiveCamera(MapCamera.NAVIGATE)
@@ -91,7 +90,6 @@ class MainActivity : AppCompatActivity() {
                             supportFragmentManager.beginTransaction().show(navigateFragment).hide(profileFragment).hide(searchFragment).commit()
                         }
                         BottomNavItem.SEARCH -> {
-                            mapFragment.notifyCameras()
                             mapRendererStore.setActiveFeatures(SearchFragment.renderableFeatures)
                             listOfCameras.forEach {
                                 it.setActiveCamera(MapCamera.SEARCH)

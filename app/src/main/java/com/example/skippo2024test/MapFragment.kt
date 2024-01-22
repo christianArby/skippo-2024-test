@@ -38,12 +38,6 @@ class MapFragment : Fragment() {
 
     private lateinit var binding: FragmentMapBinding
 
-
-    data class MapUiState(
-        val annotations: List<Annotation> = emptyList(),
-        val lineLayer: LineLayer? = null
-    )
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -147,7 +141,7 @@ class MapFragment : Fragment() {
             notifyCameras()
         }
 
-        val cancelable = map.mapboxMap.subscribeCameraChanged(callback)
+        map.mapboxMap.subscribeCameraChanged(callback)
 
         return binding.root
     }

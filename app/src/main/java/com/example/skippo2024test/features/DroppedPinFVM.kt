@@ -2,7 +2,7 @@ package com.example.skippo2024test.features
 
 import androidx.lifecycle.viewModelScope
 import com.example.skippo2024test.MapRendererStore
-import com.example.skippo2024test.MapRendererVM
+import com.example.skippo2024test.MapRendererViewModel
 import com.example.skippo2024test.RenderableFeatures
 import com.mapbox.geojson.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,9 +16,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DroppedPinFVM @Inject constructor(private val mapRendererStore: MapRendererStore) : MapRendererVM() {
+class DroppedPinFVM @Inject constructor(mapRendererStore: MapRendererStore) : MapRendererViewModel(mapRendererStore) {
 
-    override val isActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    override val renderableFeature: RenderableFeatures = RenderableFeatures.DROPPED_PIN
 
     private val _droppedPinUiState: MutableStateFlow<Point?> = MutableStateFlow(null)
     val droppedPinUiState: StateFlow<Point?> = isActive.flatMapLatest {
@@ -32,14 +32,6 @@ class DroppedPinFVM @Inject constructor(private val mapRendererStore: MapRendere
         started = SharingStarted.WhileSubscribed(),
         initialValue = null
     )
-
-    init {
-        viewModelScope.launch {
-            mapRendererStore.listOfActiveFeatures.map { features ->
-                features.contains(RenderableFeatures.DROPPED_PIN)
-            }.collect { isActive.value = it }
-        }
-    }
 
     fun onMapClicked(point: Point) {
         if (isActive.value.not()) return

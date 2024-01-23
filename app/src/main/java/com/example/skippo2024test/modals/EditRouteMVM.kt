@@ -2,7 +2,7 @@ package com.example.skippo2024test.modals
 
 import androidx.lifecycle.viewModelScope
 import com.example.skippo2024test.MapRendererStore
-import com.example.skippo2024test.MapRendererVM
+import com.example.skippo2024test.MapRendererViewModel
 import com.example.skippo2024test.RenderableFeatures
 import com.mapbox.geojson.Point
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,13 +16,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EditRouteMVM @Inject constructor(private val mapRendererStore: MapRendererStore): MapRendererVM() {
+class EditRouteMVM @Inject constructor(mapRendererStore: MapRendererStore): MapRendererViewModel(mapRendererStore) {
 
     companion object {
         val renderableFeatures = listOf(RenderableFeatures.EDIT_ROUTE)
     }
 
-    override val isActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    override val renderableFeature: RenderableFeatures = RenderableFeatures.EDIT_ROUTE
 
     private val _editRoutePinUiState: MutableStateFlow<Point?> = MutableStateFlow(null)
     val editRoutePinUiState: StateFlow<Point?> = isActive.flatMapLatest {
@@ -36,14 +36,6 @@ class EditRouteMVM @Inject constructor(private val mapRendererStore: MapRenderer
         started = SharingStarted.WhileSubscribed(),
         initialValue = null
     )
-
-    init {
-        viewModelScope.launch {
-            mapRendererStore.listOfActiveFeatures.map { features ->
-                features.contains(RenderableFeatures.EDIT_ROUTE)
-            }.collect { isActive.value = it }
-        }
-    }
 
     fun onMapClicked(point: Point) {
         if (isActive.value.not()) return
